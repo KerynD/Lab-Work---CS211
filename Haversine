@@ -1,0 +1,29 @@
+import java.io.*;
+import java.util.*;
+
+public class Haversine {
+	public static void main (String[] args){
+		
+		Scanner scan = new Scanner(System.in);
+		
+		double Alat = scan.nextDouble();//53.37674907
+		double Along = scan.nextDouble();//-6.5993499
+		
+		double Blat = scan.nextDouble();//40.690264 
+		double Blong = scan.nextDouble();//-74.047364
+		
+		double r = 6371; //radius of earth
+		
+		double first = Math.toRadians(Blat - Alat);
+		double second = Math.toRadians(Blong - Along);
+		Alat = Math.toRadians(Alat);
+		Blat = Math.toRadians(Blat);
+		
+		double equation = Math.sin(first/2) *Math.sin(first/2)+Math.sin(second/2) * Math.sin(second/2)*(Math.cos(Alat))*(Math.cos(Blat));
+		double d = 2*Math.asin(Math.sqrt(equation));
+		
+		System.out.println(d*r);
+	}
+	
+
+}
