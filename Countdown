@@ -1,0 +1,44 @@
+
+import java.util.*;
+
+public class CountdownLab5 {
+
+    public static void main(String args[]){
+        
+        FileIO reader = new FileIO();
+        Scanner scan = new Scanner(System.in);
+ 
+        String[] dictionary = reader.load("C:/Users/Keryn/Documents/dictionary.txt"); //Reading the File as a String array
+        System.out.println("Please enter 9 letters:");
+        String countdown = scan.next();//ROFYDHTU
+        String[] contents = new String[120000];
+        int count = -1;
+        
+        for(int i=0;i<dictionary.length;i++){
+        	if(dictionary[i].length()<=9){
+        		count++;
+        		contents[count]=dictionary[i];
+        	}
+        }
+        System.out.println(count);
+        
+        Trie t = new Trie();
+        
+        for(int i=0; i<contents.length;i++){
+        	for(int j=0;j<countdown.length();j++){
+        		for(int k =0;k<countdown.length();k++){
+        			if(contents[i].charAt(0)==countdown.charAt(j)&&countdown.charAt(k)!=countdown.charAt(j)&&contents[i].charAt(1)==countdown.charAt(k)){
+        				t.addString(contents[i]);
+        			}
+        		}
+        	}
+        }
+        
+        t.print(t);
+        
+        
+       /* for(int i=0;i<100;i++){
+            System.out.println(contents[i]);
+        }*/
+    }
+}
