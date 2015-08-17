@@ -1,0 +1,85 @@
+import java.util.Scanner;
+
+public class TSP {
+	public static void main(String[] args){
+        
+        FileIO reader = new FileIO();
+        Scanner scan = new Scanner(System.in);
+ 
+        String[] input = reader.load("C:/Users/Keryn/Documents/1000airports.txt");
+      
+        String[] commaAir = new String[input.length];
+        int[] number = new int[input.length];
+        String[] airport = new String[input.length];
+        double[] lat = new double[input.length];
+        double[] lon = new double[input.length];
+        
+        for(int i=0;i<input.length;i++){
+        commaAir = input[i].split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
+        number[i]=Integer.parseInt(commaAir[0]); //airport number
+        airport[i]=commaAir[1];  //names
+        lat[i]=Double.parseDouble(commaAir[2]); //lat
+        lon[i]=Double.parseDouble(commaAir[3]);  //long
+        }
+        
+     
+        
+        double adjacency[][] = new double[input.length][input.length];
+        for(int i = 0; i<input.length;i++){
+        	for(int j = 0; j<input.length;j++){
+        		adjacency[i][j] = haver(lat[i],lon[i],lat[j],lon[j]);
+        		}
+        }
+        
+        double total = 0;
+        int k = 1;
+        int s = -1;
+        int m = -1;
+        double smallest =10000000;
+        
+    	for(int l = 0; l<input.length;l++){
+    		adjacency[l][k] = 0.0;
+    	}
+        
+        for(int i = 0; i<input.length;i++){
+        	System.out.print(number[k]+".");
+        	
+        	total = total+adjacency[k][0];
+        	smallest = 1000000;
+        	for(int j = 0; j<input.length;j++){
+        		if(adjacency[k][j]>0.0&&adjacency[k][j]<smallest){
+        			smallest = adjacency[k][j];
+        			s = k;
+        			m = j;
+        		}
+        	}
+        	
+        	k=m;
+        	for(int l = 0; l<input.length;l++){
+        		adjacency[l][m] = 0.0;
+        	}
+        	//System.out.print(k);
+        	
+        }
+        System.out.println("  ");
+        System.out.println(total);
+        
+	}
+	
+	
+	public static double haver(double Alat, double Along, double Blat, double Blong){
+	
+	double r = 6371; //radius of earth
+	
+	double first = Math.toRadians(Blat - Alat);
+	double second = Math.toRadians(Blong - Along);
+	Alat = Math.toRadians(Alat);
+	Blat = Math.toRadians(Blat);
+	
+	double equation = Math.sin(first/2) *Math.sin(first/2)+Math.sin(second/2) * Math.sin(second/2)*(Math.cos(Alat))*(Math.cos(Blat));
+	double d = 2*Math.asin(Math.sqrt(equation));
+	
+	return(d*r);
+}
+	
+}
